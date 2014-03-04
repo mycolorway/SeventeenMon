@@ -13,6 +13,10 @@ And then execute:
 
     $ bundle
 
+Or you can install simply by
+
+    $ gem install seventeen_mon
+
 ## Usage
 
 ```(ruby)
