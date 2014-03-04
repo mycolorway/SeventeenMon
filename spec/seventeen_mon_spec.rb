@@ -13,10 +13,7 @@ describe SeventeenMon do
   describe "# query test" do
     before do
       @ip_param = "129.215.5.255"
-      @url_params = {
-          address: "www.ruby-lang.com",
-          protocol: "http"
-        }
+      @url_param = "http://www.ruby-lang.com"
     end
 
     it "can find location by ip" do
@@ -26,7 +23,7 @@ describe SeventeenMon do
     end
 
     it "can find location by address" do
-      result = SM.find_by_address @url_params
+      result = SM.find_by_address @url_param
       result.should include(:city)
       result.should include(:country)
     end

@@ -1,0 +1,51 @@
+#!/usr/bin/env ruby
+$LOAD_PATH << File.dirname(__FILE__) + "/../lib" if $0 == __FILE__
+
+require 'optparse'
+require 'seventeen_mon'
+
+CONFIG = {}
+OPERATIONS = %w(ip address)
+
+option_parser = OptionParser.new do |opts|
+  opts.banner = "Seventeen Mon #{SeventeenMon::VERSION}, a location finder for human\n" \
+    "Usage: #{File.basename(__FILE__)} [#{OPERATIONS.join('|')}] [pattern]"
+
+  opts.separator <<-EOS
+
+Supported commands:
+
+ ip [pattern]            Display the location by ip
+ address [pattern]       Display the location by address
+
+
+Example:
+ seventeen ip 188.74.78.234
+ seventeen address http://ruby-lang.com
+
+Note: NSFW if you run seventeen as root.
+EOS
+end
+option_parser.parse!
+
+
+op = ARGV.shift
+if OPERATIONS.include?(op)
+  begin
+    result = SM.send("find_by_#{op}".to_sym, ARGV.first)
+    puts <<-EOS
+Country:   #{result[:country]}
+City:      #{result[:city]}
+EOS
+
+  rescue ArgumentError => ex
+    puts ex.message
+
+  rescue Exception => e
+    puts "Mmmmm, I didn't expect this:"
+    puts e.message
+    puts e.backtrace.join("\n")
+  end
+else
+  puts option_parser.help
+end

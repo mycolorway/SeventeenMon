@@ -12,8 +12,9 @@ module SeventeenMon
     IP.new(ip: _ip).find
   end
 
-  def self.find_by_address(address: nil, protocol: "http")
-    IP.new(address: address, protocol: protocol).find
+  def self.find_by_address(_address)
+    prot, addr = _address.split("://")
+    IP.new(address: addr, protocol: prot).find
   end
 end
 
