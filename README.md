@@ -2,13 +2,12 @@
 
 Simply find location by IP.
 
-<strong>Currently NSFW due to encoding issue.</strong>
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'seventeen_mom', git: "git@github.com:mycolorway/SeventeenMon.git"
+    gem 'seventeen_mon', git: "git@github.com:mycolorway/SeventeenMon.git"
 
 And then execute:
 
@@ -18,6 +17,10 @@ And then execute:
 
 ```(ruby)
 SeventeenMon.find_by_ip ip: "YOUR_IP_ADDRESS"
+# => {:country=>"英国", :city=>"英国"}
+
+SM.find_by_address address: "ruby-lang.com", protocol: "http"
+# => {:country=>"荷兰", :city=>"荷兰"}
 ```
 
 ## Contributing
