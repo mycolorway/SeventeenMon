@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["jaxihe@gmail.com"]
   spec.summary       = %q{Simply find location by IP.}
   spec.description   = %q{Simply find location by IP.}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/mycolorway/SeventeenMon"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
