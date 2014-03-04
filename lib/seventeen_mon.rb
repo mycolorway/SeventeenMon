@@ -88,7 +88,6 @@ module SeventeenMon
 
     return "N/A" unless index_offset
 
-    # puts index_offset, index_length
     IPDB.instance.seek(index_offset, index_length).map do |str|
       Iconv.conv("UTF-8", "UTF-8", str)
     end

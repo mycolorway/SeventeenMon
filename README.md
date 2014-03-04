@@ -1,24 +1,24 @@
 # SeventeenMon
 
-TODO: Write a gem description
+Simply find location by IP.
+
+<strong>Currently NSFW due to encoding issue.</strong>
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'seventeen_mom'
+    gem 'seventeen_mom', git: "git@github.com:mycolorway/SeventeenMon.git"
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install seventeen_mom
-
 ## Usage
 
-TODO: Write usage instructions here
+```(ruby)
+SeventeenMon.find_by_ip ip: "YOUR_IP_ADDRESS"
+```
 
 ## Contributing
 
