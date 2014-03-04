@@ -1,6 +1,6 @@
 # SeventeenMon
 
-Simply find location by IP.
+SeventeenMon simply help you find location by IP address. Data is totally based on [17MON.CN](http://tool.17mon.cn/).
 
 
 ## Installation
@@ -34,3 +34,7 @@ SM.find_by_address address: "ruby-lang.com", protocol: "http"
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Thanks
+
+[高春辉 Paul Gao](http://tool.17mon.cn/) - for his awesome data.
