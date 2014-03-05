@@ -2,7 +2,6 @@
 
 module SeventeenMon
   require "socket"
-  require "iconv"
   require "ipaddr"
   require "seventeen_mon/version"
   require "seventeen_mon/ipdb"
