@@ -3,6 +3,10 @@
 SeventeenMon simply help you find location by IP address. Data is totally based on [17MON.CN](http://tool.17mon.cn/).
 
 
+## Compatibility
+
+I have tested it on Ruby >= 1.9.3. Other versions are not tested but should work on well. Please contact me if not.
+
 ## Installation
 
 Add this line to your application's Gemfile:

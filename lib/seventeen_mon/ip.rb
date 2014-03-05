@@ -2,8 +2,18 @@ module SeventeenMon
   class IP
     attr_reader :ip
 
-    def initialize(ip: nil, address: nil, protocol: nil)
-      @ip = ip || Socket.getaddrinfo(address, protocol)[0][3]
+    # Initialize IP object
+    #
+    # == parameters:
+    # params::
+    #   Might contain address(hostname) and protocol, or just IP
+    #
+    # == Returns:
+    # self
+    #
+    def initialize(params = {})
+      @ip = params[:ip] ||
+        Socket.getaddrinfo(params[:address], params[:protocol])[0][3]
     end
 
     def four_number
