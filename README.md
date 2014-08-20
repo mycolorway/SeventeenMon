@@ -25,7 +25,7 @@ Or you can install simply by
 
 ### In Ruby
 ```(ruby)
-SM.find_by_ip "YOUR_IP_ADDRESS"
+SM.find_by_ip "188.74.78.234"
 # => {:country=>"英国", :city=>"英国"}
 
 SM.find_by_address "http://ruby-lang.com"
