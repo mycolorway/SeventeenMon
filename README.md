@@ -35,14 +35,16 @@ SM.find_by_address "http://taobao.com"
 ### In Command Line
 
 ```(bash)
-$ seventeen ip 188.74.78.234
-Country:   英国
-City:      英国
+$ seventeen ip 119.75.216.20
+Country:   中国
+Province:  北京
+City:      北京
 
 
-$ seventeen address https://github.com
-Country:   美国
-City:      美国
+$ seventeen seventeen address http://taobao.com
+Country:   中国
+Province:  浙江
+City:      杭州
 ```
 
 ## Contributing
