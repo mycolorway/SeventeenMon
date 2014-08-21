@@ -25,11 +25,11 @@ Or you can install simply by
 
 ### In Ruby
 ```(ruby)
-SM.find_by_ip "188.74.78.234"
-# => {:country=>"英国", :city=>"英国"}
+SM.find_by_ip "119.75.216.20"
+# => {:country=>"中国", :province=>"北京", :city=>"北京"}
 
-SM.find_by_address "http://ruby-lang.com"
-# => {:country=>"荷兰", :city=>"荷兰"}
+SM.find_by_address "http://taobao.com"
+# => {:country=>"中国", :province=>"浙江", :city=>"杭州"}
 ```
 
 ### In Command Line

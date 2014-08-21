@@ -37,6 +37,7 @@ if OPERATIONS.include?(op)
     if result.is_a? Hash
     puts <<-EOS
 Country:   #{result[:country]}
+Province:  #{result[:province]}
 City:      #{result[:city]}
 EOS
     else
