@@ -19,12 +19,14 @@ describe SeventeenMon do
     it "can find location by ip" do
       result = SM.find_by_ip @ip_param
       result.should include(:city)
+      result.should include(:province)
       result.should include(:country)
     end
 
     it "can find location by address" do
       result = SM.find_by_address @url_param
       result.should include(:city)
+      result.should include(:province)
       result.should include(:country)
     end
   end

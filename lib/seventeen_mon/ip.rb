@@ -55,7 +55,8 @@ module SeventeenMon
 
       {
         country: result[0],
-        city: result[1]
+        province: result[1],
+        city: result[2]
       }
     end
   end

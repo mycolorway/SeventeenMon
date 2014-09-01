@@ -25,24 +25,26 @@ Or you can install simply by
 
 ### In Ruby
 ```(ruby)
-SM.find_by_ip "188.74.78.234"
-# => {:country=>"英国", :city=>"英国"}
+SM.find_by_ip "119.75.216.20"
+# => {:country=>"中国", :province=>"北京", :city=>"北京"}
 
-SM.find_by_address "http://ruby-lang.com"
-# => {:country=>"荷兰", :city=>"荷兰"}
+SM.find_by_address "http://taobao.com"
+# => {:country=>"中国", :province=>"浙江", :city=>"杭州"}
 ```
 
 ### In Command Line
 
 ```(bash)
-$ seventeen ip 188.74.78.234
-Country:   英国
-City:      英国
+$ seventeen ip 119.75.216.20
+Country:   中国
+Province:  北京
+City:      北京
 
 
-$ seventeen address https://github.com
-Country:   美国
-City:      美国
+$ seventeen seventeen address http://taobao.com
+Country:   中国
+Province:  浙江
+City:      杭州
 ```
 
 ## Contributing
