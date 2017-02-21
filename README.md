@@ -11,7 +11,7 @@ I have tested it on Ruby >= 1.9.3. Other versions are not tested but should work
 
 Add this line to your application's Gemfile:
 
-    gem 'seventeen_mon', git: "https://github.com/yashin-luo/SeventeenMon.git"
+    gem 'seventeen_mon', git: "https://git.oschina.net/oscstudio/SeventeenMon.git"
 
 And then execute:
 
