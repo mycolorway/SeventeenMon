@@ -33,7 +33,7 @@ describe SeventeenMon do
 
     it "can run in a multi-threaded environment" do
       threads = []
-      @threads.times { threads << Thread.new { SM.find_by_ip("1.1.1.1") } }
+      @threads.times { threads << Thread.new { SM.find_by_ip(@ip_param) } }
       threads.each { |t| t.join }
     end
   end
