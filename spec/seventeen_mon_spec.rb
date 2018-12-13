@@ -14,6 +14,7 @@ describe SeventeenMon do
     before do
       @ip_param = "129.215.5.255"
       @url_param = "http://www.ruby-lang.com"
+      @threads = 100
     end
 
     it "can find location by ip" do
@@ -28,6 +29,12 @@ describe SeventeenMon do
       result.should include(:city)
       result.should include(:province)
       result.should include(:country)
+    end
+
+    it "can run in a multi-threaded environment" do
+      threads = []
+      @threads.times { threads << Thread.new { SM.find_by_ip("1.1.1.1") } }
+      threads.each { |t| t.join }
     end
   end
 end
