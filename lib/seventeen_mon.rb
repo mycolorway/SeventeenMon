@@ -7,13 +7,13 @@ module SeventeenMon
   require "seventeen_mon/ipdb"
   require "seventeen_mon/ip"
 
-  def self.find_by_ip(_ip)
-    IP.new(ip: _ip).find
+  def self.find_by_ip(_ip, lang = "CN")
+    IP.new(ip: _ip, language: lang).find
   end
 
-  def self.find_by_address(_address)
+  def self.find_by_address(_address, lang = "CN")
     prot, addr = _address.split("://")
-    IP.new(address: addr, protocol: prot).find
+    IP.new(address: addr, protocol: prot, language: lang).find
   end
 end
 
