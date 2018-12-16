@@ -1,7 +1,8 @@
 # SeventeenMon
 
-SeventeenMon simply help you find location by IP address. Data is totally based on [17MON.CN](http://tool.17mon.cn/).
+SeventeenMon simply help you find location by IP address. Data is totally based on [IPIP.NET](https://www.ipip.net/product/client).
 
+Version >= 2.0 only support ipdb format.
 
 ## Compatibility
 
@@ -47,6 +48,11 @@ Province:  浙江
 City:      杭州
 ```
 
+## TODO
+
+* [ ] More meta data info
+* [ ] Support paid version format
+
 ## Contributing
 
 1. Fork it ( http://github.com/<my-github-username>/seventeen_mom/fork )
@@ -57,4 +63,4 @@ City:      杭州
 
 ## Thanks
 
-[高春辉 Paul Gao](http://tool.17mon.cn/) - for his awesome data.
+[高春辉 Paul Gao](https://www.ipip.net/product/client) - for his awesome data.
