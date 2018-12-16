@@ -1,6 +1,6 @@
 # SeventeenMon
 
-SeventeenMon simply help you find location by IP address. Data is totally based on [17MON.CN](http://tool.17mon.cn/).
+SeventeenMon simply help you find location by IP address. Data is totally based on [IPIP.NET](https://www.ipip.net/product/client.html).
 
 
 ## Compatibility
