@@ -1,6 +1,6 @@
 module SeventeenMon
   class IP
-    attr_reader :ip
+    attr_reader :ip, :ip_addr
 
     # Initialize IP object
     #
@@ -12,35 +12,23 @@ module SeventeenMon
     # self
     #
     def initialize(params = {})
-      @ip = params[:ip] ||
-        Socket.getaddrinfo(params[:address], params[:protocol])[0][3]
+      @ip = params[:ip] || Socket.getaddrinfo(params[:address], params[:protocol])[0][3]
+      @ip_addr = IPAddr.new(ip)
       @language = params[:language]
     end
 
-    def four_number
-      @four_number ||= begin
-        fn = ip.split(".").map(&:to_i)
-        raise "ip is no valid" if fn.length != 4 || fn.any?{ |d| d < 0 || d > 255}
-        fn
-      end
-    end
-
-    def ip2long
-      @ip2long ||= ::IPAddr.new(ip).to_i
-    end
-
     def binary_ip
-      @binary_ip ||= [ ip2long ].pack("N").unpack("cccc")
+      @binary_ip ||= ip_addr.ipv4? ? ip_addr.hton.unpack('c' * 4) : ip_addr.hton.unpack('c' * 16)
     end
 
     def find
-      throw IPDB.instance.check unless :ok == IPDB.instance.check
-      four_number # TODO IPV6
+      checked = IPDB.instance.check
+      throw checked unless checked == :ok
 
-      meta_data = IPDB.instance.meta_data
-      language_offset = meta_data["languages"][@language]
-      fields_length = meta_data["fields"].length
-      languages_length= meta_data["languages"].length
+      metadata = IPDB.instance.metadata
+      language_offset = metadata["languages"][@language]
+      fields_length = metadata["fields"].length
+      languages_length = metadata["languages"].length
 
       ip_string_list = IPDB.instance.resolve(binary_ip).split("\t", fields_length * languages_length)
       result = ip_string_list[language_offset..language_offset + fields_length - 1]

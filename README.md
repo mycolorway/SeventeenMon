@@ -50,7 +50,7 @@ City:      杭州
 
 ## TODO
 
-* [ ] More meta data info
+* [X] More metadata info
 * [ ] Support paid version format
 
 ## Contributing

@@ -6,17 +6,34 @@ module SeventeenMon
     include Singleton
 
     def ip_db_path
-      @ip_db_path ||= File.expand_path'../../data/ipip.ipdb', __FILE__
+      @ip_db_path ||= File.expand_path('../data/ipip.ipdb', __dir__)
     end
 
-    def ip_db
-      @ip_db ||= File.open ip_db_path, 'rb'
+    def ip_db_bin
+      @ip_db_bin = File.binread ip_db_path
     end
 
+    # Length of the entire IPDB file.
+    def file_length
+      @file_length ||= ip_db_bin.length
+    end
+
+    # The first 4 bytes(32-bit unsigned integer) of data are used to record the length of the metadata.
+    META_LENGTH_OFFSET = 4
+
+    # Length of metadata.
     def meta_length
-      @meta_length ||= IO.read(ip_db_path, 4, 0).unpack("N")[0]
+      @meta_length ||= ip_db_bin[0...META_LENGTH_OFFSET].unpack('N')[0]
     end
 
+    # Length of the entire non-data area.
+    def metadata_offset
+      @metadata_offset ||= META_LENGTH_OFFSET + meta_length
+    end
+
+    # Metadata.
+    # @return [Hash]
+    # @example
     # {
     #   "build"      => 1535696240,
     #   "ip_version" => 1,
@@ -25,55 +42,48 @@ module SeventeenMon
     #   "total_size" => 3117287,
     #   "fields"     => [ "country_name", "region_name", "city_name" ]
     # }
-    def meta_data
-      @meta_data ||= JSON.parse(IO.read(ip_db_path, meta_length, 4))
+    def metadata
+      @metadata ||= JSON.parse(ip_db_bin[META_LENGTH_OFFSET...metadata_offset])
     end
 
-    def meta_data_offset
-      @meta_data_offset ||= 4 + meta_length
+    def node_count
+      @node_count ||= metadata["node_count"]
     end
 
+    # Length of data.
     def data_length
-      @data_length ||= file_length - meta_data_offset
+      @data_length ||= file_length - metadata_offset
     end
 
     def data
-      @data ||= IO.read(ip_db_path, data_length, meta_data_offset)
+      @data ||= ip_db_bin[metadata_offset...file_length]
     end
 
     def check
-      @check_meta_data ||= check_meta_data
+      @check ||= check_metadata
     end
 
-    def check_meta_data
-      if data_length != meta_data["total_size"]
-        return "database file size error"
-      end
+    def check_metadata
+      return "database file size error" if data_length != metadata["total_size"]
 
       :ok
     end
 
-    def ipv4_offset
-      @ipv4_offset ||= _ipv4_offset
-    end
-
-    def file_length
-      @file_length ||= File.size(ip_db)
+    # @param [:v4, :v6] ip_version
+    def ip_offset(ip_version)
+      ip_version == :v4 ? @ip_offset_v4 ||= _ip_offset(ip_version) : @ip_offset_v6 ||= _ip_offset(ip_version)
     end
 
     def resolve(binary_ip)
       node = find_node(binary_ip)
 
-      resoloved = node - meta_data["node_count"] + meta_data["node_count"] * 8
+      resoloved = node - node_count + node_count * 8
 
-      if resoloved >= file_length
-        throw "database resolve error"
-      end
+      throw "database resolve error" if resoloved >= file_length
 
       size = data.byteslice(resoloved + 1, 1).unpack("c")[0]
-      if data_length < (resoloved + 2 + size)
-        throw "database resolve error"
-      end
+
+      throw "database resolve error" if data_length < (resoloved + 2 + size)
 
       data.byteslice(resoloved + 2, size).encode("UTF-8", "UTF-8")
     end
@@ -81,31 +91,33 @@ module SeventeenMon
     private
 
     def find_node(binary)
-      # TODO IPV6
-      bit = 4 * 8
-      node = ipv4_offset
+      bit = binary.length * 8
+      node = ip_offset(bit == 32 ? :v4 : :v6)
 
-      for i in 0..bit - 1
-        if node > meta_data["node_count"]
-          return node
-        end
+      (0...bit).each do |i|
+        break if node > node_count
 
         node = read_node(node, 1 & ((0xFF & binary[i / 8]) >> 7 - (i % 8)))
       end
 
+      return node if node > node_count
+
       throw "ip not found"
     end
 
-    def _ipv4_offset
+    def _ip_offset(ip_version)
       node = 0
-      if 1 == meta_data["ip_version"]
+
+      return node if ip_version == :v6
+
+      if metadata["ip_version"] == 1
         i = 0
-        while i < 96 && node < meta_data["node_count"]
-          if i >= 80
-            node = read_node(node, 1)
-          else
-            node = read_node(node, 0)
-          end
+        while i < 96 && node < node_count
+          node = if i >= 80
+                   read_node(node, 1)
+                 else
+                   read_node(node, 0)
+                 end
 
           i += 1
         end
@@ -116,7 +128,7 @@ module SeventeenMon
 
     def read_node(node, index)
       off = node * 8 + index * 4
-      data.byteslice(off, 4).unpack("N")[0]
+      data.byteslice(off, 4).unpack('N')[0]
     end
   end
 end

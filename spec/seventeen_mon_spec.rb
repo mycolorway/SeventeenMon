@@ -3,10 +3,10 @@ require 'spec_helper'
 describe SeventeenMon do
   describe "# IPDB loading" do
     it 'should be eager loaded' do
-      ipdb_1 = SM::IPDB.instance
-      ipdb_2 = SM::IPDB.instance
+      ipdb1 = SM::IPDB.instance
+      ipdb2 = SM::IPDB.instance
 
-      ipdb_1.object_id.should == ipdb_2.object_id
+      expect(ipdb1.object_id).to eq(ipdb2.object_id)
     end
   end
 
@@ -17,24 +17,47 @@ describe SeventeenMon do
       @threads = 100
     end
 
-    it "can find location by ip" do
+    it "can find location by IP" do
       result = SM.find_by_ip @ip_param
-      result.should include(:city)
-      result.should include(:province)
-      result.should include(:country)
+      expect(result).to include(:city)
+      expect(result).to include(:province)
+      expect(result).to include(:country)
     end
 
     it "can find location by address" do
       result = SM.find_by_address @url_param
-      result.should include(:city)
-      result.should include(:province)
-      result.should include(:country)
+      expect(result).to include(:city)
+      expect(result).to include(:province)
+      expect(result).to include(:country)
+    end
+
+    it "can find location by local IP" do
+      result = SM.find_by_ip '127.0.0.1'
+      expect(result).to include(:city)
+      expect(result).to include(:province)
+      expect(result).to include(:country)
     end
 
     it "can run in a multi-threaded environment" do
       threads = []
       @threads.times { threads << Thread.new { SM.find_by_ip(@ip_param) } }
       threads.each { |t| t.join }
+    end
+
+    it "can get IPDB metadata" do
+      expect(SM.metadata).to respond_to(
+        :build_time,
+        :fields,
+        :ip_version,
+        :languages,
+        :node_count,
+        :total_size,
+        :origin_metadata
+      )
+
+      require 'set'
+      result = Set.new(SM.metadata.origin_metadata.keys)
+      expect(result).to eq(Set.new(%w[build fields ip_version languages node_count total_size]))
     end
   end
 end
