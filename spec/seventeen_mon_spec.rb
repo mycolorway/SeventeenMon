@@ -6,7 +6,7 @@ describe SeventeenMon do
       ipdb_1 = SM::IPDB.instance
       ipdb_2 = SM::IPDB.instance
 
-      ipdb_1.object_id.should == ipdb_2.object_id
+      expect(ipdb_1.object_id).to eq(ipdb_2.object_id)
     end
   end
 
@@ -18,16 +18,16 @@ describe SeventeenMon do
 
     it "can find location by ip" do
       result = SM.find_by_ip @ip_param
-      result.should include(:city)
-      result.should include(:province)
-      result.should include(:country)
+      expect(result).to include(:city)
+      expect(result).to include(:province)
+      expect(result).to include(:country)
     end
 
     it "can find location by address" do
       result = SM.find_by_address @url_param
-      result.should include(:city)
-      result.should include(:province)
-      result.should include(:country)
+      expect(result).to include(:city)
+      expect(result).to include(:province)
+      expect(result).to include(:country)
     end
   end
 end
